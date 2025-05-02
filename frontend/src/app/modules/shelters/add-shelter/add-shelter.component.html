@@ -1,0 +1,192 @@
+<script src="add-shelter.component.ts"></script>
+<div class="body">
+  <div class="shelter-container">
+    <h2><b>Registracija</b></h2>
+    <form (ngSubmit)="onAddShelter()" #shelterForm="ngForm">
+
+      <div class="form-grid">
+        <div class="form-group" [class.error]="errors['name']">
+          <label for="name">Naziv:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="newShelter.name"
+            (ngModelChange)="validateInput('name')"
+            required
+          />
+          <small *ngIf="errors['name']">{{ errors['name'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['owner']">
+          <label for="owner">Vlasnik:</label>
+          <input
+            type="text"
+            id="owner"
+            name="owner"
+            [(ngModel)]="newShelter.owner"
+            (ngModelChange)="validateInput('owner')"
+            required
+          />
+          <small *ngIf="errors['owner']">{{ errors['owner'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['yearFounded']">
+          <label for="yearFounded">Godina osnivanja:</label>
+          <input
+            type="number"
+            id="yearFounded"
+            name="yearFounded"
+            [(ngModel)]="newShelter.yearFounded"
+            (ngModelChange)="validateInput('yearFounded')"
+            required
+            min="1800"
+            max="2023"
+          />
+          <small *ngIf="errors['yearFounded']">{{ errors['yearFounded'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['address']">
+          <label for="address">Adresa:</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            [(ngModel)]="newShelter.address"
+            (ngModelChange)="validateInput('address')"
+            required
+          />
+          <small *ngIf="errors['address']">{{ errors['address'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['username']">
+          <label for="username">Korisničko ime:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="newShelter.username"
+            (ngModelChange)="validateInput('username')"
+            required
+          />
+          <small *ngIf="errors['username']">{{ errors['username'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['password']">
+          <label for="password">Lozinka:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="newShelter.password"
+            (ngModelChange)="validateInput('password')"
+            (ngModelChange)="checkPasswordStrength($event)"
+            required
+          />
+          <small *ngIf="errors['password']">{{ errors['password'] }}</small>
+
+        <div class="password-strength">
+          <div
+            class="strength-bar"
+            [style.backgroundColor]="passwordStrengthColor"
+            [style.width]="passwordStrength + '%'"
+          ></div>
+
+        </div>
+        <p class ="strength" *ngIf="passwordMessage">{{ passwordMessage }}</p>
+</div>
+        <div class="form-group" [class.error]="errors['email']">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="newShelter.email"
+            (ngModelChange)="validateInput('email')"
+            required
+          />
+          <small *ngIf="errors['email']">{{ errors['email'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['phoneNumber']">
+          <label for="phoneNumber">Broj telefona:</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            name="phoneNumber"
+            [(ngModel)]="newShelter.phoneNumber"
+            (ngModelChange)="validateInput('phoneNumber')"
+            required
+          />
+          <small *ngIf="errors['phoneNumber']">{{ errors['phoneNumber'] }}</small>
+        </div>
+
+        <div class="form-group">
+          <label for="city">Grad:</label>
+          <select id="city" name="cityId" [(ngModel)]="newShelter.cityId" required>
+            <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+          </select>
+          <small *ngIf="!cities || cities.length === 0">Nema dostupnih gradova.</small>
+        </div>
+
+        <!-- <div class="form-group" [class.error]="errors['imageUrl']">
+           <label for="imageUrl">Slika:</label>
+           <input
+             type="text"
+             id="imageUrl"
+             name="imageUrl"
+             [(ngModel)]="newShelter.imageUrl"
+             (ngModelChange)="validateInput('imageUrl')"
+           />
+           <small *ngIf="errors['imageUrl']">{{ errors['imageUrl'] }}</small>
+         </div>-->
+        <div class="form-group" [class.error]="errors['imageUrl']">
+          <label for="imageUrl">Slika:</label>
+          <div class="drag-drop-container"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave()"
+               (drop)="onDrop($event)">
+            <div class="placeholder" *ngIf="!newShelter.imageUrl">
+              <p>Prevuci sliku ovdje</p>
+              <p>ili</p>
+              <button type="button" class="btn-choose" (click)="fileInput.click()"><b>Odaberi datoteku</b></button>
+              <input type="file" id="imageUrl" #fileInput (change)="onFileSelected($event)" hidden />
+            </div>
+
+            <div class="preview" *ngIf="newShelter.imageUrl">
+              <img [src]="newShelter.imageUrl" alt="Preview" />
+              <div class="buttonRemove">
+
+                <button type="button" class="remove-btn" (click)="removeImage()">Ukloni</button>
+
+              </div>
+
+            </div>
+          </div>
+          <small *ngIf="errors['imageUrl']">{{ errors['imageUrl'] }}</small>
+          <br>
+          <p class="sizeOfPicture">Veličina slike: {{compressedFilee}}</p>
+        </div>
+
+      </div>
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="!isValidForm() || isSubmitting"
+      >
+        Registriraj se
+      </button>
+    </form>
+
+    <div *ngIf="isSubmitting" class="loading">Registracija...</div>
+    <!-- Popup za uspješnu registraciju -->
+    <div class="popup-overlay" *ngIf="showPopup">
+      <div class="popup-content">
+        <h2><b>Registracija uspješna!</b> </h2>
+        <p>Uspješno ste registrovali Vaš azil. Provjerite Vaš mail kako biste aktivirali profil!<br> Dobrodošli u našu zajednicu!</p>
+        <button class="close-btn" (click)="closePopup()">Zatvori</button>
+      </div>
+    </div>
+
+  </div>
+</div>

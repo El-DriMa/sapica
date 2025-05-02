@@ -1,0 +1,117 @@
+<div class="user-container">
+  <h2>Edit User</h2>
+  <form (ngSubmit)="onUpdateUser()" #editUserForm="ngForm">
+    <div class="form-group" [class.error]="errors['firstName']">
+      <label for="firstName">First Name:</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        [(ngModel)]="editUser.firstName"
+        (ngModelChange)="validateInput('firstName')"
+        required
+      />
+      <small *ngIf="errors['firstName']">{{ errors['firstName'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['lastName']">
+      <label for="lastName">Last Name:</label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        [(ngModel)]="editUser.lastName"
+        (ngModelChange)="validateInput('lastName')"
+        required
+      />
+      <small *ngIf="errors['lastName']">{{ errors['lastName'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['yearBorn']">
+      <label for="yearBorn">Year Born:</label>
+      <input
+        type="number"
+        id="yearBorn"
+        name="yearBorn"
+        [(ngModel)]="editUser.yearBorn"
+        (ngModelChange)="validateInput('yearBorn')"
+        required
+        min="1900"
+        max="2024"
+      />
+      <small *ngIf="errors['yearBorn']">{{ errors['yearBorn'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['username']">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        [(ngModel)]="editUser.username"
+        (ngModelChange)="validateInput('username')"
+        required
+      />
+      <small *ngIf="errors['username']">{{ errors['username'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['password']">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="editUser.password"
+        (ngModelChange)="validateInput('password')"
+        required
+      />
+      <small *ngIf="errors['password']">{{ errors['password'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['email']">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="editUser.email"
+        (ngModelChange)="validateInput('email')"
+        required
+      />
+      <small *ngIf="errors['email']">{{ errors['email'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['phoneNumber']">
+      <label for="phoneNumber">Phone Number:</label>
+      <input
+        type="text"
+        id="phoneNumber"
+        name="phoneNumber"
+        [(ngModel)]="editUser.phoneNumber"
+        (ngModelChange)="validateInput('phoneNumber')"
+        required
+      />
+      <small *ngIf="errors['phoneNumber']">{{ errors['phoneNumber'] }}</small>
+    </div>
+    <div class="form-group">
+      <label for="city">City:</label>
+      <select id="city" name="cityId" [(ngModel)]="editUser.cityId" required>
+        <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+      </select>
+      <small *ngIf="!cities || cities.length === 0">No cities available.</small>
+    </div>
+    <div class="form-group" [class.error]="errors['imageUrl']">
+      <label for="imageUrl">Image URL:</label>
+      <input
+        type="text"
+        id="imageUrl"
+        name="imageUrl"
+        [(ngModel)]="editUser.imageUrl"
+        (ngModelChange)="validateInput('imageUrl')"
+      />
+      <small *ngIf="errors['imageUrl']">{{ errors['imageUrl'] }}</small>
+    </div>
+    <button
+      type="submit"
+      class="btn-submit"
+      [disabled]="!isValidForm() || isSubmitting"
+    >
+      {{ isSubmitting ? 'Updating User...' : 'Update User' }}
+    </button>
+  </form>
+  <div *ngIf="isSubmitting" class="loading">Updating user...</div>
+</div>

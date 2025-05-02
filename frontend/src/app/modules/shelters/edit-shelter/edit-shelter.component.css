@@ -1,0 +1,154 @@
+.body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+}
+
+.body:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/pozadina3.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.user-container {
+  max-width: 600px;
+  width: 90%;
+  background-color: #fffaf3;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+h2 {
+  color: #5e4631;
+  font-size: 26px;
+  margin-bottom: 25px;
+  font-family: Bahnschrift;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: #ff6f61;
+  color: white;
+  border: none;
+  font-size: 18px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.close-btn:hover {
+  background: #e64a19;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  color: #5e4631;
+  display: block;
+  margin-bottom: 8px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #d4c3a3;
+  border-radius: 5px;
+}
+
+input:focus,
+select:focus {
+  border-color: saddlebrown;
+  box-shadow: 0 0 5px rgba(88,57,39,0.5);
+  outline: none;
+}
+
+.error input,
+.error select {
+  border: 2px solid red;
+}
+
+.error small {
+  color: red;
+  font-size: 12px;
+}
+
+.btn-submit {
+  background-color: #a37c5b;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  width: 100%;
+  margin-top: 25px;
+}
+
+.btn-submit:hover {
+  background-color: #8b6745;
+}
+
+.btn-submit:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.loading {
+  margin-top: 10px;
+  color: #5e4631;
+  font-style: italic;
+  font-size: 14px;
+}
+
+
+.image-preview {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 160px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .user-container {
+    max-width: 95%;
+    padding: 25px;
+  }
+
+  .btn-submit {
+    font-size: 16px;
+    padding: 12px;
+  }
+}

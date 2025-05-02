@@ -1,0 +1,336 @@
+<header class="animated-header">
+  <div class="top-bar">
+    <div class="logo">
+      <img src="assets/logo1.png" height="60" width="80" alt="Logo">
+    </div>
+
+    <nav class="nav-links" *ngIf="isLoggedIn">
+      <a routerLink="">Početna</a>
+      <span class="divider">|</span>
+      <a routerLink="/questions">Pitanja</a>
+      <span class="divider">|</span>
+      <a routerLink="/aboutUs">O nama</a>
+      <span class="divider">|</span>
+      <a routerLink="/requests">Zahtjevi</a>
+      <span class="divider">|</span>
+      <a routerLink="/donations">Donacije</a>
+    </nav>
+
+    <nav class="nav-links" *ngIf="!(isLoggedIn)">
+      <a routerLink="">Početna</a>
+      <span class="divider">|</span>
+      <a routerLink="/questions">Pitanja</a>
+      <span class="divider">|</span>
+      <a routerLink="/aboutUs">O nama</a>
+      <span class="divider">|</span>
+      <a routerLink="/register">Registracija</a>
+      <span class="divider">|</span>
+      <a routerLink="/login">Prijava</a>
+    </nav>
+
+    <div class="user-menu" *ngIf="isLoggedIn">
+      <img
+        src="{{ user?.imageUrl }}"
+        alt="User Avatar"
+        class="user-avatar"
+        tabindex="0"
+      />
+      <div class="dropdown-menu" *ngIf="isUser==true">
+        <a routerLink="/users/me">Profil</a>
+        <a routerLink="/logout">Odjavi se</a>
+      </div>
+      <div class="dropdown-menu" *ngIf="isShelter==true">
+        <a routerLink="/shelter/profile">Profil</a>
+        <a routerLink="/logout">Odjavi se</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-content">
+    <div class="adopt">
+      <h1>Topli dom za svaku šapicu!</h1>
+      <p>Tvoj novi najbolji prijatelj te čeka!</p>
+      <br>
+      <br>
+      <button class="postavi-objavu-button" routerLink="/login">Postavi objavu</button>
+    </div>
+  </div>
+
+</header>
+
+<div class="body">
+  <div class="search-bar">
+    <div class="filter-group">
+      <!-- Checkbox za hitno udomljavanje -->
+      <label class="checkbox-container">
+        <input type="checkbox" id="urgent" [(ngModel)]="filters.urgent" (ngModelChange)="searchAdoptionPosts()"/>
+        Hitno udomljavanje
+      </label>
+
+      <!-- Combo box za vrstu životinje -->
+      <select class="dropdown-btn" id="animalType" [(ngModel)]="filters.animalType" (ngModelChange)="searchAdoptionPosts()">
+        <option value="" selected>Vrsta životinje</option>
+        <option value="Pas">Pas</option>
+        <option value="Mačka">Mačka</option>
+        <option value="Zec">Zec</option>
+        <option value="Ostalo">Ostalo</option>
+      </select>
+
+      <!-- Combo box za spol -->
+      <select class="dropdown-btn" id="gender" [(ngModel)]="filters.gender" (ngModelChange)="searchAdoptionPosts()">
+        <option value="" selected>Spol</option>
+        <option value="Mužjak">Mužjak</option>
+        <option value="Ženka">Ženka</option>
+      </select>
+
+      <!-- Combo box za veličinu -->
+      <select class="dropdown-btn" id="size" [(ngModel)]="filters.size" (ngModelChange)="searchAdoptionPosts()">
+        <option value="" selected>Veličina</option>
+        <option value="Malo">Malo</option>
+        <option value="Srednje">Srednje</option>
+        <option value="Veliko">Veliko</option>
+      </select>
+
+      <!-- Combo box za grad -->
+      <select class="dropdown-btn" id="" [(ngModel)]="filters.cityId" (ngModelChange)="searchAdoptionPosts()">
+      <option value="0" selected>Grad</option>
+        <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+      </select>
+
+
+      <!-- Dugme za pretragu -->
+      <button class="dropdown-btn search-btn" (click)="searchAdoptionPosts()">Pretraži</button>
+    </div>
+  </div>
+
+  <!-- Adoption Posts -->
+  <div class="adoption-grid sm-grid-cols-1 md-grid-cols-5">
+    <div *ngFor="let post of adoptionPosts" class="adoption-grid-item">
+      <div (click)="openMoreInfo(post.id)">
+        <div *ngIf="post.animal.images && post.animal.images.length > 0" class="card">
+          <img [src]="'data:image/jpeg;base64,' + (post.animal.images[0].image || '')"
+               alt="Animal Image" class="animal-image">
+        </div>
+      </div>
+      <div class="info">
+        <h3 class="animal-name">{{ post.animal.name }}</h3>
+        <p class="animal-age">{{ post.animal.age }}</p>
+      </div>
+      <div class="action">
+        <button *ngIf="post.username !== user?.username"
+        class="adopt-button"
+        routerLink="/adoptionRequest/add"
+        [queryParams]="{ postId: post.id }">
+          Udomi me!
+        </button>
+        <button class="own-post" *ngIf="post.username === user?.username" class="own-post">
+          Moja objava!
+        </button>
+        <span *ngIf="isLoggedIn"
+      (click)="toggleFavorite(post.id)"
+      [ngClass]="{ 'favorite': isFavorite(post.id), 'disabled': isFavorite(post.id) }">
+  {{ isFavorite(post.id) ? '❤️' : '🤍' }}
+</span>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-btn">
+      <img class="paw-icon1" src="../../../assets/dog-paw-svgrepo-com.svg" alt="Previous page">
+    </button>
+    <span class="current-page">{{ currentPage }} / {{totalPages}} </span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">
+      <img class="paw-icon2" src="../../../assets/dog-paw-svgrepo-com.svg" alt="Next page">
+    </button>
+  </div>
+  <br>
+  <div class="friends-section">
+    <h1>Prijatelji naše stranice</h1>
+  </div>
+  <!-- Sponsor Section -->
+<div class="sponsors-section">
+  <div *ngFor="let sponsor of sponsors" class="sponsor-card" (click)="openSponsorPage(sponsor)">
+    <img [src]="'https://localhost:7291' + sponsor.logoUrl" alt="{{ sponsor.name }} Logo" class="sponsor-logo">
+    <h3>{{ sponsor.name }}</h3>
+    <p>{{ sponsor.description }}</p>
+  </div>
+</div>
+</div>
+
+<!-- More info -->
+<!-- Include Flowbite CSS -->
+<link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.6/dist/flowbite.min.css" rel="stylesheet">
+
+<!-- Include Flowbite JS (optional, for interactivity like modals) -->
+<script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.6/dist/flowbite.min.js"></script>
+<div id="default-modal" *ngIf="isMoreInfoVisible" tabindex="-1" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black bg-opacity-50 backdrop-blur-sm">
+  <div class="relative p-4 w-full max-w-[800px] max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Detalji oglasa</h3>
+        <button type="button" (click)="closeMoreInfo()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="p-4 md:p-5 space-y-4">
+        <div *ngIf="selectedPost" class="modal-content">
+          <div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Datum objave: {{ selectedPost.dateOfCreation | date: 'dd.MM.yyyy' }}</p><br>
+          </div>
+          <div class="flex items-start">
+            <div class="flex flex-col w-1/2">
+              <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedPost.animal.name }}, {{ selectedPost.animal.age }}</h1>
+              <p class="text-xs font-medium text-gray-800">Kratki opis životinje</p>
+              <p class="mt-2 p-2 w-full h-32 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white text-left resize-none" style="min-height: 8rem; overflow-y: auto;">
+                {{ selectedPost.shortDescription }}
+              </p>
+            </div>
+            <div class="carousel-container">
+                <button (click)="previousImage()" class="carousel-arrow left-arrow">&lt;</button>
+                <div class="carousel-images">
+                  <img *ngFor="let image of selectedPost.animal.images; let i = index"
+                       [src]="'data:image/jpeg;base64,' + image.image"
+                       [class.active]="i === currentImageIndex"
+                       class="carousel-image"
+                       alt="Animal image">
+                </div>
+                <button (click)="nextImage()" class="carousel-arrow right-arrow">&gt;</button>
+                <div class="zoom-controls">
+                  <button (click)="setZoomLevel(zoomScale + 0.2)" class="zoom-btn">+</button>
+                  <button (click)="setZoomLevel(zoomScale - 0.2)" class="zoom-btn">-</button>
+                </div>
+              </div>
+         </div>
+         <div class="grid grid-cols-1 gap-4 mt-4">
+          <div class="col-span-1 mt-1">
+            <div class="city-name-container flex flex-col items-center" style="flex: 1; height: 250px;">
+              <div #mapContainer id="map-{{selectedPost.id}}" style="width: 100%; height: 200px;"></div>
+              <p class="mt-2 text-lg font-semibold text-gray-700">
+                Grad: {{ selectedPost.city?.name }}
+              </p>
+            </div>
+          </div>
+        </div>
+          <!-- Animal details -->
+          <div class="grid grid-cols-2 gap-4 mt-4 text-center">
+            <div class="grid-cols-1 mt-1">
+              <p class="text-md font-semibold text-gray-800">Vrsta životinje</p>
+              <h4 class="text-sm p-1 border rounded-md bg-gray-50 text-black dark:text-white">
+                {{ selectedPost.animal.animalType }}
+              </h4>
+            </div>
+            <div class="grid-cols-1 mt-1">
+              <p class="text-md font-semibold text-gray-800">Veličina</p>
+              <h4 class="text-sm p-1 border rounded-md bg-gray-50 text-black dark:text-white">
+                {{ selectedPost.animal.size }}
+              </h4>
+            </div>
+            <div class="grid-cols-1 mt-1">
+              <p class="text-md font-semibold text-gray-800">Težina</p>
+              <h4 class="text-sm p-1 border rounded-md bg-gray-50 text-black dark:text-white">
+                {{ selectedPost.animal.weight }} kg
+              </h4>
+            </div>
+            <div class="grid-cols-1 mt-1">
+              <p class="text-md font-semibold text-gray-800">Boja</p>
+              <h4 class="text-sm p-1 border rounded-md bg-gray-50 text-black dark:text-white">
+                {{ selectedPost.animal.color }}
+              </h4>
+            </div>
+            <div class="grid-cols-1 mt-1">
+              <p class="text-md font-semibold text-gray-800">Vakcinisan</p>
+              <h4 class="text-sm p-1 border rounded-md bg-gray-50 text-black dark:text-white">
+                {{ selectedPost.animal.vaccinated ? 'Da' : 'Ne' }}
+              </h4>
+            </div>
+
+            <div class="grid-cols-1 mt-1">
+              <p class="text-md font-semibold text-gray-800">Sterilisan</p>
+              <h4 class="text-sm p-1 border rounded-md bg-gray-50 text-black dark:text-white">
+                {{ selectedPost.animal.sterilized ? 'Da' : 'Ne' }}
+              </h4>
+            </div>
+
+            <div class="grid-cols-1 mt-1">
+              <p class="text-md font-semibold text-gray-800">Očišćen od parazita</p>
+              <h4 class="text-sm p-1 border rounded-md bg-gray-50 text-black dark:text-white">
+                {{ selectedPost.animal.parasiteFree ? 'Da' : 'Ne' }}
+              </h4>
+            </div>
+
+            <div class="grid-cols-1 mt-1">
+              <p class="text-md font-semibold text-gray-800">Ima pasoš</p>
+              <h4 class="text-sm p-1 border rounded-md bg-gray-50 text-black dark:text-white">
+                {{ selectedPost.animal.hasPassport ? 'Da' : 'Ne' }}
+              </h4>
+            </div>
+          </div>
+
+           <!-- Combined Adopter Info -->
+           <div class="grid grid-cols-2 mt-1 gap-4">
+            <!-- Podaci o vlasniku -->
+            <div class="mt-4 p-4 border rounded-lg bg-white-100 dark:bg-gray-800">
+              <h2 class="text-lg font-bold text-gray-900 dark:text-white">Podaci o vlasniku</h2>
+              <p><span class="font-semibold">Ime:</span> {{selectedPost.username}}</p>
+              <p><span class="font-semibold">Zanimanje:</span> Product Manager at Meta</p>
+            </div>
+
+            <div class="flex justify-end items-end mt-4">
+              <button
+              class="ml-4 px-4 py-2 text-white bg-green-600 hover:bg-green-300 rounded-lg w-1/2"
+              (click)="generatePDF()">
+              Download PDF
+            </button>
+              <button class="px-4 py-2 text-white bg-[#ca7c4c] hover:bg-[#ca7c4c] rounded-lg w-1/2">
+                Udomi
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<router-outlet></router-outlet>
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section about">
+      <h3>O nama</h3>
+      <p>Osnovano 2024. godine s misijom da pomognemo životinjama u potrebi.</p>
+    </div>
+
+    <div class="footer-section contact">
+      <h3>Kontakt</h3>
+      <p>  +387 33 123 456</p>
+      <p>  +387 61 789 101</p>
+      <p>✉: sapica&#64;outlook.ba</p>
+    </div>
+
+    <div class="footer-section social">
+      <h3>Pratite nas</h3>
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank"><img src="assets/facebook.png" alt="Facebook"></a>
+        <a href="https://instagram.com" target="_blank"><img src="assets/instagram.png" alt="Instagram"></a>
+        <a href="https://twitter.com" target="_blank"><img src="assets/twitter.png" alt="Twitter"></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2024 Šapica. Sva prava zadržana.</p>
+  </div>
+</footer>
+
+

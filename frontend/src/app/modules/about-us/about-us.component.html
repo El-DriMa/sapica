@@ -1,0 +1,88 @@
+<div class="top-bar">
+  <div class="logo">
+    <img src="assets/logo1.png" height="60" width="80" alt="Logo">
+  </div>
+  <nav class="nav-links" *ngIf="isLoggedIn">
+    <a routerLink="">Početna</a>
+    <span class="divider">|</span>
+    <a routerLink="/questions">Pitanja</a>
+    <span class="divider">|</span>
+    <a routerLink="/aboutUs">O nama</a>
+    <span class="divider">|</span>
+    <a routerLink="/requests">Zahtjevi</a>
+    <span class="divider">|</span>
+    <a routerLink="/donations">Donacije</a>
+
+  </nav>
+
+  <nav class="nav-links" *ngIf="!(isLoggedIn)">
+    <a routerLink="">Početna</a>
+    <span class="divider">|</span>
+    <a routerLink="/questions">Pitanja</a>
+    <span class="divider">|</span>
+    <a routerLink="/aboutUs">O nama</a>
+    <span class="divider">|</span>
+    <a routerLink="/register">Registracija</a>
+    <span class="divider">|</span>
+    <a routerLink="/login">Prijava</a>
+  </nav>
+
+  <div class="user-menu" *ngIf="isLoggedIn">
+    <img
+      src="{{ user?.imageUrl }}"
+      alt="User Avatar"
+      class="user-avatar"
+      tabindex="0"
+    />
+    <div class="dropdown-menu" *ngIf="isUser==true">
+      <a routerLink="/users/me">Profil</a>
+      <a routerLink="/logout">Odjavi se</a>
+    </div>
+    <div class="dropdown-menu" *ngIf="isShelter==true">
+      <a routerLink="/shelter/profile">Profil</a>
+      <a routerLink="/logout">Odjavi se</a>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="body">
+
+<div class="text-wrapper">
+  <h1 class="tekst">Svi azili sa kojima surađujemo:</h1>
+</div>
+<div id="gallery" class="gallery">
+  <div *ngFor="let image of images; let i = index" class="gallery-item"  [style.animationDelay]="i * 0.2 + 's'">
+  <img [src]="image" [alt]="'Slika ' + (i + 1)" (click)="openModal(i)" />
+  </div>
+</div>
+
+  <div id="chart-container" style="text-align: center; margin-top: 20px;">
+    <div id="chart"></div>
+  </div>
+
+
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <div class="div-close">
+        <button class="close" (click)="closeModal()">&times;</button>
+      </div>
+      <button class="nav prev" (click)="prevImage()">&#10094;</button>
+      <div class="zoom-container">
+        <img
+          [src]="images[currentImageIndex]"
+          alt="Shelter image in modal"
+          class="zoomable-modal-image"
+          (wheel)="onWheelZoom($event)"
+        />
+      </div>
+      <button class="nav next" (click)="nextImage()">&#10095;</button>
+      <div class="zoom-controls">
+        <button (click)="setZoomLevel(zoomScale + 0.2)">+</button>
+        <button (click)="setZoomLevel(zoomScale - 0.2)">-</button>
+      </div>
+    </div>
+  </div>
+</div>

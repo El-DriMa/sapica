@@ -1,0 +1,423 @@
+
+.body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.body:before{
+  content: "";
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.adoptionRequest-container {
+  max-width: 1000px;
+  width: 95%;
+  max-height: 900px;
+  height: 95%;
+  background-color: #fffaf3;
+  padding: 80px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 0 auto;
+ position: relative;
+
+}
+.closee-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff6f61;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.closee-btn:hover {
+  background-color: #e64a19;
+}
+.progress-container {
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease-in-out;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+h2 {
+  color: #5e4631;
+  margin-bottom: 20px;
+}
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.image-container {
+  flex: 1;
+  max-width: 350px;
+  margin-top: 20px;
+  max-height: 350px;
+
+
+}
+.imgContainer{
+  max-width: 300px;
+  margin-top: 20px;
+  max-height: 300px;
+margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+.adoption-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: contain;
+}
+.animalName{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.form-fields {
+  flex: 2;
+  min-width: 300px;
+}
+p{
+  font-family: Bahnschrift;
+  color: #5e4631;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+label {
+  font-weight: bold;
+  color: #5e4631;
+}
+.image-container {
+  text-align: center;
+
+}
+
+.adoption-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.back-button {
+  margin-top: 10px;
+  background-color: #810116;
+  color: white;
+  width: 35%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  position: absolute;
+  bottom: 10px;
+  left:100px;
+  right: 0;
+}
+
+.back-button:hover {
+  background-color: #380009;
+}
+.next-button {
+  margin-top: 10px;
+  background-color: #810116;
+  color: white;
+  width: 35%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  position: absolute;
+  bottom: 10px;
+
+  right:0;
+  right: 100px;
+}
+
+.next-button:hover {
+  background-color: #380009;
+}
+.back-button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+input,
+select,
+textarea,
+label{
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #a37c5b;
+}
+
+
+btn-submit {
+
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #a0522d;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+btn-submit:hover {
+  background-color: #8b6745;
+}
+
+.btn-submit:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  margin-top: 20px;
+
+  padding: 10px 20px;
+}
+h2{
+  font-family: Bahnschrift;
+  font-size: x-large;
+}
+
+.loading {
+  margin-top: 15px;
+  color: #5e4631;
+  font-style: italic;
+}
+input,
+select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+
+input:focus,
+select:focus {
+  border-color: saddlebrown;   /*#007bff;*/
+  box-shadow: 0 0 5px  rgba(88,57,39,0.5);/*rgba(0, 123, 255, 0.5);*/
+  outline: none;
+}
+
+.error input,
+.error select {
+  border: 2px solid red;
+}
+
+.error small {
+  color: red;
+  font-size: 12px;
+}
+
+
+input.ng-valid.ng-dirty,
+select.ng-valid.ng-dirty {
+  border: 2px solid green;
+}
+
+.placeholder {
+  text-align: center;
+  color: #8b4513;
+}
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.popup-content {
+  background: #fffaf0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: slideIn 0.5s ease-out;
+  max-width: 400px;
+  width: 90%;
+}
+
+
+.popup-content h3 {
+  margin: 0 0 10px;
+  color: #4caf50;
+}
+
+.popup-content p {
+  color: #333;
+  margin-bottom: 20px;
+  font-family: Bahnschrift;
+}
+
+
+.close-btn {
+  background-color: #ff6f61;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background-color: #e64a19;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #d4c3a3;
+  border-radius: 4px;
+  resize: vertical;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+textarea:focus {
+  border-color: #a37c5b;
+  box-shadow: 0 0 5px rgba(163, 124, 91, 0.5);
+  outline: none;
+}
+
+
+.reason-group {
+  grid-column: span 2;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #a0522d;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 15px;
+}
+
+button:hover {
+  background-color: #8b4513;
+}
+
+button:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+
+@media (max-width: 768px) {
+  .adoptionRequest-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .btn-submit {
+    font-size: 14px;
+    padding: 10px;
+  }
+  body {
+    background-attachment: scroll;
+  }
+}

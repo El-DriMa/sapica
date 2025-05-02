@@ -1,0 +1,95 @@
+<div class="modal-overlay" *ngIf="isModalOpen"></div>
+
+<div class="profile" [ngClass]="{'fade-in-visible': isBackgroundVisible}" [style.backgroundImage]="'url(' + backgroundUrl + ')'">
+
+  <header>
+    <div class="top-bar">
+      <div class="logo">
+        <img src="assets/logo1.png" height="60" width="80" alt="Logo">
+      </div>
+
+      <nav class="nav-links">
+        <a routerLink="">Početna</a>
+        <span class="divider">|</span>
+        <a routerLink="/questions">Pitanja</a>
+        <span class="divider">|</span>
+        <a routerLink="/about">O nama</a>
+        <span class="divider">|</span>
+        <a routerLink="/requests">Zahtjevi</a>
+        <span class="divider">|</span>
+        <a routerLink="/donations">Donacije</a>
+      </nav>
+
+      <div class="user-menu" *ngIf="isLoggedIn">
+        <img
+          src="{{ user?.imageUrl }}"
+          alt="User Avatar"
+          class="user-avatar"
+          tabindex="0"
+        />
+        <div class="dropdown-menu" *ngIf="isUser==true">
+          <a routerLink="/users/me">Profil</a>
+          <a routerLink="/logout">Odjavi se</a>
+        </div>
+        <div class="dropdown-menu" *ngIf="isShelter==true">
+          <a routerLink="/shelter/profile">Profil</a>
+          <a routerLink="/logout">Odjavi se</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <h1 class="lblDoniraj">Doniraj</h1>
+  <div class="containerOut">
+  <div class="container">
+    <h2>Vaša donacija će obezbijediti...</h2>
+    <div class="donation-options">
+      <div class="donation-box"><strong>10 KM</strong><br>hrana za jednog psa za 3 dana ili jedan antiparazitski tretman</div>
+      <div class="donation-box"><strong>20 KM</strong><br>hrana za dva psa za 3 dana ili vakcinacija za jedno štene ili mačku</div>
+      <div class="donation-box"><strong>50 KM</strong><br>sterilizacija jedne mačke ili medicinska njega za 3-4 šteneta</div>
+      <div class="donation-box"><strong>100 KM</strong><br>pokivanje dijela troškova operacije za povrijeđenu životinju</div>
+      <div class="donation-box"><strong>200 KM</strong><br>hrana za cijeli azil za 2-3 dana ili vakcinacija i sterilizacija 3-4 životinje</div>
+    </div>
+    <br>
+    <label for="shelter" style="margin-right: 5px">Odaberite azil:</label>
+    <select id="shelter" style="width: 300px;">
+      <option *ngFor="let shelter of shelters" [value]="shelter.id">
+        {{ shelter.name }}
+      </option>
+    </select>
+    <h3 style="margin-top: 40px">Odaberite iznos novca koji želite donirati:</h3>
+    <div class="donation-amounts">
+      <button class="amount-btn" (click)="setAmount(10)">10 KM</button>
+      <button class="amount-btn" (click)="setAmount(20)">20 KM</button>
+      <button class="amount-btn" (click)="setAmount(50)">50 KM</button>
+      <button class="amount-btn" (click)="setAmount(100)">100 KM</button>
+      <button class="amount-btn" (click)="setAmount(200)">200 KM</button>
+    </div>
+
+    <label style="margin-top: 20px" for="custom-amount">Drugi iznos:</label>
+    <div id="custom-amount">
+      <input
+        style="padding-right: 20px"
+        placeholder="npr. 80 ili 80.00"
+        [(ngModel)]="customAmount"
+        (input)="validateAmount()"
+      > KM
+    </div>
+    <small *ngIf="errorMessage" class="error-message">{{ errorMessage }}</small>
+
+    <button class="donate-btn" [disabled]="!isAmountValid || !customAmount || !user || !shelters.length" (click)="openModal(parseFloat(this.customAmount!))">Doniraj</button>
+  </div>
+  </div>
+</div>
+<div class="modal" [ngClass]="{'modal-open': isModalOpen}">
+  <div class="modal-content">
+    <h3>Unesite podatke o kartici:</h3>
+    <div id="card-element" #cardElementContainer class="stripe-card"></div>
+    <button class="donate-btn stripe-donate-btn"
+            [disabled]="!isAmountValid || !user || !shelters.length"
+            (click)="confirmDonation()">
+      Doniraj {{ this.customAmount }} KM
+    </button>
+    <button class="close-btn" (click)="closeModal()">&#10006;</button>
+  </div>
+</div>

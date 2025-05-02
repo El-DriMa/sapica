@@ -1,0 +1,267 @@
+<script src="add-adoption-request.component.ts" xmlns="http://www.w3.org/1999/html"></script>
+<div class="body">
+
+  <div class="adoptionRequest-container">
+    <h2><b>Udomljavanje</b></h2>
+    <button class="closee-btn"  routerLink="/">X</button>
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          [style.width.%]="calculateProgress()"
+        ></div>
+      </div>
+      <p>{{ calculateProgress() }}% popunjeno</p>
+    </div>
+    <form (ngSubmit)="onAddAdoptionRequest()" #adoptionRequestForm="ngForm">
+
+      <div class="form-grid">
+        <div class="image-container">
+          <div class="imgContainer">
+            <img [src]="'data:image/jpeg;base64,' + (imageUrl)" alt="Adoption Post Image" class="adoption-image" /></div>
+          <p class="animalName">{{animalName}}</p>
+          <br><br><br><br>
+          <button
+            type="button"
+            class="back-button"
+            (click)="prevStep()"
+            [disabled]="currentStep === 1">
+            Nazad
+          </button>
+        </div>
+
+
+
+        <div *ngIf="currentStep === 1" class="step">
+
+        <div class="form-group" [class.error]="errors['firstName']">
+          <label for="firstName">Ime:</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            [(ngModel)]="newAdoptionRequest.firstName"
+            (ngModelChange)="validateInput('firstName')"required/>
+          <small *ngIf="errors['firstName']">{{ errors['firstName'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['lastName']">
+          <label for="lastName">Prezime:</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            [(ngModel)]="newAdoptionRequest.lastName"
+            (ngModelChange)="validateInput('lastName')"
+            required
+          />
+          <small *ngIf="errors['lastName']">{{ errors['lastName'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['age']">
+          <label for="age">Godine:</label>
+          <input
+            type="number"
+            id="age"
+            name="age"
+            [(ngModel)]="newAdoptionRequest.age"
+            (ngModelChange)="validateInput('age')"
+            required
+            min="18"
+            max="100"
+          />
+          <small *ngIf="errors['age']">{{ errors['age'] }}</small>
+        </div>
+
+
+        <div class="form-group">
+          <label for="city">Grad:</label>
+          <select id="city" name="cityId" [(ngModel)]="newAdoptionRequest.cityId" >
+            <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+          </select>
+          <small *ngIf="!cities || cities.length === 0">Nema dostupnih gradova.</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['phoneNumber']">
+          <label for="phoneNumber">Broj telefona:</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            name="phoneNumber"
+            [(ngModel)]="newAdoptionRequest.phoneNumber"
+            (ngModelChange)="validateInput('phoneNumber')"
+            required
+          />
+          <small *ngIf="errors['phoneNumber']">{{ errors['phoneNumber'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['email']">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="newAdoptionRequest.email"
+            (ngModelChange)="validateInput('email')"
+            required
+          />
+          <small *ngIf="errors['email']">{{ errors['email'] }}</small>
+        </div>
+
+         <button type="button" class="next-button" [disabled]="!isStepValid()" (click)="nextStep()">Dalje</button>
+        </div>
+
+        <div *ngIf="currentStep === 2" class="step">
+
+
+        <div class="livingSpace" [class.error]="errors['livingSpace']">
+          <label for="livingSpace">Mjesto življenja(kuća/stan):</label>
+          <select type="text" id="livingSpace" name="livingSpace" [(ngModel)]="newAdoptionRequest.livingSpace">
+            <option value="Kuca">Kuća</option>
+            <option value="Stan">Stan</option>
+            <option value="Kuca sa dvorištem">Kuća sa dvorištem</option>
+
+          </select>
+          <small *ngIf="errors['livingSpace']">{{ errors['livingSpace'] }}</small>
+        </div>
+
+
+
+        <div class="backyard" [class.error]="errors['backyard']">
+          <label for="backyard">Dvorište:</label>
+          <select
+            type="text"
+            id="backyard"
+            name="backyard"
+            [(ngModel)]="newAdoptionRequest.backyard"
+
+
+          > <option value="da">Da</option>
+            <option value="ne">Ne</option>
+          </select>
+          <small *ngIf="errors['backyard']">{{ errors['backyard'] }}</small>
+        </div>
+
+
+
+        <div class="form-group" [class.error]="errors['familyMembers']">
+          <label for="familyMembers">Broj ukućana:</label>
+          <input
+            type="number"
+            id="familyMembers"
+            name="familyMembers"
+            [(ngModel)]="newAdoptionRequest.familyMembers"
+            (ngModelChange)="validateInput('familyMembers')"
+            required
+            min="1"
+            max="30"
+          />
+          <small *ngIf="errors['familyMembers']">{{ errors['familyMembers'] }}</small>
+        </div>
+
+
+
+        <div class="anyKids" [class.error]="errors['anyKids']">
+          <label for="anyKids">Da li imate djecu?</label>
+          <select
+            type="text"
+            id="anyKids"
+            name="anyKids"
+            [(ngModel)]="newAdoptionRequest.anyKids"
+
+
+          > <option value="da">Da</option>
+            <option value="ne">Ne</option>
+          </select>
+          <small *ngIf="errors['anyKids']">{{ errors['anyKids'] }}</small>
+        </div>
+
+         <!-- <button type="button" class="back-button" (click)="prevStep()">Nazad</button>-->
+           <button type="button" class="next-button" [disabled]="!isStepValid()" (click)="nextStep()">Dalje</button>
+        </div>
+
+
+        <div *ngIf="currentStep === 3" class="step">
+
+        <div class="anyAnimalsBefore" [class.error]="errors['anyAnimalsBefore']">
+          <label for="anyAnimalsBefore">Da li ste prije imali kućnog ljubimca?</label>
+          <select
+            type="text"
+            id="anyAnimalsBefore"
+            name="anyAnimalsBefore"
+            [(ngModel)]="newAdoptionRequest.anyAnimalsBefore"
+            required
+          > <option value="da">Da</option>
+            <option value="ne">Ne</option>
+          </select>
+          <small *ngIf="errors['anyAnimalsBefore']">{{ errors['anyAnimalsBefore'] }}</small>
+        </div>
+
+        <div class="form-group" [class.error]="errors['timeCommitment']">
+          <label for="timeCommitment">Koliko sati dnevno možete posvetiti brizi o ljubimcu?</label>
+          <input
+            type="number"
+            id="timeCommitment"
+            name="timeCommitment"
+            [(ngModel)]="newAdoptionRequest.timeCommitment"
+            (ngModelChange)="validateInput('timeCommitment')"
+            required
+            min="1"
+            max="24"
+          />
+          <small *ngIf="errors['timeCommitment']">{{ errors['timeCommitment'] }}</small>
+        </div>
+
+        <div class="form-group reason-group" [class.error]="errors['preferredCharacteristic']">
+          <label for="preferredCharacteristic">Vaš novi ljubimac treba da posjeduje koje osobine?</label>
+          <textarea
+            id="preferredCharacteristic"
+            name="preferredCharacteristic"
+            rows="4"
+            [(ngModel)]="newAdoptionRequest.preferredCharacteristic"
+            (ngModelChange)="validateInput('preferredCharacteristic')"
+            required
+          ></textarea>
+          <small *ngIf="errors['preferredCharacteristic']">{{ errors['preferredCharacteristic'] }}</small>
+        </div>
+
+        <div class="form-group reason-group" [class.error]="errors['reason']">
+          <label for="reason">Zašto ste baš vi pravi udomitelj?</label>
+          <textarea
+            id="reason"
+            name="reason"
+            rows="5"
+            [(ngModel)]="newAdoptionRequest.reason"
+            (ngModelChange)="validateInput('reason')"
+            required
+          ></textarea>
+          <small *ngIf="errors['reason']">{{ errors['reason'] }}</small>
+        </div>
+
+        <!--  <button type="button" class="back-button"(click)="prevStep()">Nazad</button>-->
+
+
+        <button
+          type="submit"
+          class="btn-submit center-btn next-button"
+          (click)="generatePDF()"
+          [disabled]="!isValidForm() || isSubmitting"
+        >
+          Pošalji
+        </button>
+        </div>
+        <div  class="popup-overlay" *ngIf="showPopup">
+          <div class="popup-content">
+            <h2><b>Uspješno poslano!</b> </h2>
+            <p>Uspješno ste poslali formu za udomljavanje. <br> Želimo Vam puno sreće!</p>
+
+         </div>
+          </div>
+
+      </div>
+    </form>
+      </div>
+  </div>
+
+
+

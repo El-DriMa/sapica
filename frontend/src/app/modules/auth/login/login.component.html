@@ -1,0 +1,51 @@
+<div class="login-page" [style.backgroundImage]="'url(' + backgroundUrl + ')'">
+  <div class="login-box">
+    <form (ngSubmit)="onSubmit()">
+      <div class="login-header">
+        <h2>Prijavi se</h2>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          id="usernameOrEmail"
+          name="usernameOrEmail"
+          [(ngModel)]="usernameOrEmail"
+          placeholder="Korisničko ime ili email"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Lozinka"
+          autocomplete="new-password"
+        />
+      </div>
+
+      <div class="form-footer">
+        <div class="remember-me">
+          <input type="checkbox" id="rememberMe" [(ngModel)]="rememberMe"
+                 [ngModelOptions] = "{standalone: true}"/>
+          <label for="rememberMe">Zapamti me</label>
+        </div>
+        <a href="#" class="forgot-password">Zaboravili ste lozinku?</a>
+      </div>
+
+      <button type="submit" class="login-button" [disabled]="!isFormValid">Prijavi se</button>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div class="signup-text">
+        Nemaš kreiran račun? <a href="/register" class="signup-link"><b>Kreiraj ovdje!</b></a>
+      </div>
+    </form>
+  </div>
+  <button class="custom-button" type="button" routerLink="/">Nazad na početnu</button>
+</div>

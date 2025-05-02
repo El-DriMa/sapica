@@ -1,0 +1,222 @@
+.userlist {
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  overflow-x: auto;
+}
+
+h2 {
+  font-family: "Arial Rounded MT Bold", serif;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.add-user-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 20px;
+  align-self: flex-end;
+}
+
+.add-user-btn:hover {
+  background: #45a049;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.user-table th, .user-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-table th {
+  background: #f4f4f4;
+  color: #555;
+  white-space: nowrap;
+}
+
+.user-table tr:hover {
+  background: #f1f1f1;
+}
+
+.user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: bold;
+}
+
+.action-btn.profile {
+  background: #2196F3;
+  color: white;
+}
+
+.action-btn.profile:hover {
+  background: #1976D2;
+}
+
+.action-btn.delete {
+  background: #f44336;
+  color: white;
+}
+
+.action-btn.delete:hover {
+  background: #d32f2f;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagination-btn {
+  padding: 8px 16px;
+  border: none;
+  background: #007BFF;
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.pagination-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 14px;
+  color: #555;
+}
+
+.filter-controls {
+  display: flex;
+  justify-content: space-between; /* Evenly distribute space between filter items */
+  align-items: center; /* Vertically align filter items */
+  margin-bottom: 20px;
+  gap: 15px; /* Equal spacing between filter items */
+  flex-wrap: nowrap; /* Prevent wrapping of items */
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1 1 auto;
+  min-width: 150px;
+}
+
+.filter-label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.filter-controls input,
+.filter-controls select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 100%;
+}
+
+.filter-controls input:focus,
+.filter-controls select:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+  outline: none;
+}
+
+.filter-controls input[type="text"]::placeholder,
+.filter-controls input[type="number"]::placeholder {
+  color: #aaa;
+}
+
+.filter-controls input[type="number"] {
+  width: 100%; /* Ensure number input takes full width */
+}
+
+.filter-controls select {
+  width: 100%;
+}
+
+.filter-controls input:disabled,
+.filter-controls select:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.filter-controls input.ng-valid.ng-dirty,
+.filter-controls select.ng-valid.ng-dirty {
+  border: 2px solid #28a745;
+}
+
+.filter-controls input.ng-invalid.ng-dirty,
+.filter-controls select.ng-invalid.ng-dirty {
+  border: 2px solid red;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.invalid {
+  border-color: red;
+}
+
+.filter-item input:focus.invalid {
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+#postCount {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .filter-controls {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .filter-controls .filter-item {
+    flex: 1 1 100%;
+    min-width: 150px;
+  }
+}

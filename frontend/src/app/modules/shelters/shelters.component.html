@@ -1,0 +1,143 @@
+<div class="shelters">
+  <div class="top-bar">
+    <h2  class="title">Svi azili:</h2>
+    <button class="export-button" (click)="exportToPDF()">Eksportuj u PDF</button>
+  </div>
+
+
+  <div class="filter-section">
+    <input
+      class="filter-input"
+      type="text"
+      placeholder="Unesite naziv"
+      [(ngModel)]="filter.name"
+      (ngModelChange)="applyFilter()"
+    />
+    <input
+      class="filter-input"
+      type="text"
+      placeholder="Unesite vlasnika"
+      [(ngModel)]="filter.owner"
+      (ngModelChange)="applyFilter()"
+    />
+    <input
+      class="filter-input"
+      type="text"
+      placeholder="Unesite korisničko ime"
+      [(ngModel)]="filter.username"
+      (ngModelChange)="applyFilter()"
+    />
+    <select class="filter-select"  [(ngModel)]="filter.cityId" (ngModelChange)="applyFilter()">
+      <option value="">Odaberite grad</option>
+      <option *ngFor="let city of cities" [value]="city.id">
+        {{ city.name }}
+      </option>
+    </select>
+    <input
+      class="filter-input"
+      type="number"
+      placeholder="Unesite godinu osnivanja"
+      [(ngModel)]="filter.yearFounded"
+      (ngModelChange)="applyFilter()"
+      min="1800"
+      max="2023"
+      (blur)="validateYear()"
+    />
+
+  <div *ngIf="loading" class="spinner-container">
+    <div class="spinner"></div>
+    <p>Učitavanje podataka...</p>
+  </div>
+  <p *ngIf="!loading && filteredShelters.length === 0" class="no-results">
+    Nema rezultata za tražene filtere.
+  </p>
+  <table>
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th (click)="sortBy('name')" [class.sorted]="sortColumn === 'name'">
+        <span class="sortable-header">
+          🔃 Naziv
+          <span *ngIf="sortColumn === 'name'">
+            <ng-container *ngIf="sortOrder === 'asc'">↑</ng-container>
+            <ng-container *ngIf="sortOrder === 'desc'">↓</ng-container>
+          </span>
+        </span>
+      </th>
+      <th>Vlasnik</th>
+      <th (click)="sortBy('yearFounded')" [class.sorted]="sortColumn === 'yearFounded'">
+      <span class="sortable-header">
+        📅 Godina osnivanja
+        <span *ngIf="sortColumn === 'yearFounded'">
+          <ng-container *ngIf="sortOrder === 'asc'">↑</ng-container>
+          <ng-container *ngIf="sortOrder === 'desc'">↓</ng-container>
+        </span>
+      </span>
+      </th>
+      <th>Adresa</th>
+      <th>Korisničko ime</th>
+      <th>Email</th>
+      <th>Broj telefona</th>
+      <th>Slika</th>
+      <th>Grad</th>
+      <th>Obriši</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let shelter of filteredShelters">
+      <td>{{ shelter.id }}</td>
+      <td>{{ shelter.name }}</td>
+      <td>{{ shelter.owner }}</td>
+      <td>{{ shelter.yearFounded }}</td>
+      <td>{{ shelter.address }}</td>
+      <td>{{ shelter.username }}</td>
+      <td>{{ shelter.email }}</td>
+      <td>{{ shelter.phoneNumber }}</td>
+      <td>
+        <img
+          [src]="shelter.imageUrl"
+          alt="Shelter Image"
+          width="50"
+          height="50"
+          *ngIf="shelter.imageUrl"
+        />
+      </td>
+      <td>{{ getCityName(shelter.cityId) }}</td>
+
+      <td>
+        <button class="delete" (click)="openPopup(shelter.id)">
+          Obriši
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="pagination">
+  <button (click)="onPageChange(pagination.page - 1)" [disabled]="pagination.page === 1" class="pagination-btn">
+    <img class="paw-icon1" src="../../../assets/dog-paw-svgrepo-com.svg" alt="Previous page">
+  </button>
+  <span>Stranica {{ pagination.page }} od {{ totalPages }}</span>
+  <button
+    (click)="onPageChange(pagination.page + 1)"
+    [disabled]="pagination.page === totalPages" class="pagination-btn"
+  >
+    <img class="paw-icon2" src="../../../assets/dog-paw-svgrepo-com.svg" alt="Next page">
+  </button>
+</div>
+
+
+
+<div class="popup-backdrop" *ngIf="showPopup">
+  <div class="popup">
+    <h2>Potvrda brisanja</h2>
+    <p>Jeste li sigurni da želite obrisati ovaj azil?</p>
+    <div class="popup-actions">
+      <button class="cancel-button" (click)="closePopup()">Odustani</button>
+      <button class="confirm-button" (click)="confirmDelete()">Obriši</button>
+    </div>
+  </div>
+</div>
+</div>
+

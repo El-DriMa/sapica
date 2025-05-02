@@ -1,0 +1,350 @@
+<div class="profile" [style.backgroundImage]="'url(' + backgroundUrl + ')'">
+
+<header>
+  <div class="top-bar">
+    <div class="logo">
+      <img src="assets/logo1.png" height="60" width="80" alt="Logo">
+    </div>
+
+    <nav class="nav-links">
+      <a routerLink="">Početna</a>
+      <span class="divider">|</span>
+      <a routerLink="/questions">Pitanja</a>
+      <span class="divider">|</span>
+      <a routerLink="/about">O nama</a>
+      <span class="divider">|</span>
+      <a routerLink="/requests">Zahtjevi</a>
+      <span class="divider">|</span>
+      <a routerLink="/donations">Donacije</a>
+    </nav>
+
+    <div class="user-menu" *ngIf="isLoggedIn">
+      <img
+        src="{{ user?.imageUrl }}"
+        alt="User Avatar"
+        class="user-avatar"
+        tabindex="0"
+      />
+      <div class="dropdown-menu">
+        <a routerLink="/users/me">Profil</a>
+        <a routerLink="/logout">Odjavi se</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="profile-page">
+  <div class="profile-header">
+    <div class="profile-image">
+      <img src="{{ user?.imageUrl }}"
+           alt="Profilna slika"
+           (click)="openImageModal()"
+           class="clickable-profile-image"
+      />
+      <button class="change-image-btn" (click)="openChangeImageModal()">Promijeni sliku</button>
+
+    </div>
+    <div class="modal-container" *ngIf="isChangeImageModalOpen">
+      <div class="modal">
+        <h2>Promijeni profilnu sliku</h2>
+        <div class="modal-body">
+          <input type="file" (change)="fileChangeEvent($event)" />
+          <image-cropper
+            *ngIf="imageChangedEvent"
+            [imageChangedEvent]="imageChangedEvent"
+            [cropperMinWidth]="100"
+            [cropperMinHeight]="100"
+            [aspectRatio]="1 / 1"
+            [maintainAspectRatio]="true"
+            format="jpeg"
+            (imageCropped)="imageCropped($event)"
+          ></image-cropper>
+          <small>Odaberi i izreži sliku</small>
+        </div>
+        <div class="modal-actions">
+          <button class="save-btn" [disabled]="!croppedImage" (click)="onChangeImage()">Spremi</button>
+          <button class="cancel-btn" (click)="closeChangeImageModal()">Otkaži</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-details">
+      <h1>{{ user?.firstName }} {{ user?.lastName }}</h1>
+      <p class="username">{{ user?.username }}</p>
+      <p class="email">Email: {{ user?.email }}</p>
+      <p class="phone">Telefon: {{ user?.phoneNumber }}</p>
+      <p class="city">Grad: {{ user?.city?.name }}</p>
+      <p class="year-born">Godina rođenja: {{ user?.yearBorn }}</p>
+    </div>
+    <div class="action-buttons">
+      <button (click)="openEditProfileModal()">Uredi profil</button>
+      <button (click)="openChangePasswordModal()">Promijeni lozinku</button>
+      <button class="delete-profile-btn" (click)="confirmDeleteProfile()">Obriši profil</button>
+    </div>
+  </div>
+
+  <div class="modal-container" *ngIf="isEditProfileModalOpen">
+    <div class="modal">
+      <h2>Uredi profil</h2>
+      <div class="modal-body">
+        <div class="form-group" [class.error]="errors['firstName']">
+          <label for="firstName">Ime:</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            [(ngModel)]="updateUser.firstName"
+            (ngModelChange)="validateInput('firstName')"
+            required
+          />
+          <small *ngIf="errors['firstName']">{{ errors['firstName'] }}</small>
+        </div>
+        <div class="form-group" [class.error]="errors['lastName']">
+          <label for="lastName">Prezime:</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            [(ngModel)]="updateUser.lastName"
+            (ngModelChange)="validateInput('lastName')"
+            required
+          />
+          <small *ngIf="errors['lastName']">{{ errors['lastName'] }}</small>
+        </div>
+        <div class="form-group" [class.error]="errors['username']">
+          <label for="username">Korisničko ime:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            #usernameControl="ngModel"
+            [(ngModel)]="updateUser.username"
+            (ngModelChange)="validateInput('username')"
+            required
+            appUniqueUsernameValidator
+            [currentUsername]="user?.username"
+          />
+          <small *ngIf="errors['username']">{{ errors['username'] }}</small>
+          <small *ngIf="usernameControl?.errors?.['usernameTaken']">Korisničko ime je već u upotrebi!</small>
+        </div>
+        <div class="form-group" [class.error]="errors['email']">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            #emailControl="ngModel"
+            [(ngModel)]="updateUser.email"
+            (ngModelChange)="validateInput('email')"
+            required
+            appUniqueEmailValidator
+            [currentEmail]="user?.email"
+          />
+          <small *ngIf="errors['email']">{{ errors['email'] }}</small>
+          <small *ngIf="emailControl?.errors?.['emailTaken']">Email je već u upotrebi!</small>
+        </div>
+        <div class="form-group" [class.error]="errors['phoneNumber']">
+          <label for="phoneNumber">Broj telefona:</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            name="phoneNumber"
+            [(ngModel)]="updateUser.phoneNumber"
+            (ngModelChange)="validateInput('phoneNumber')"
+            required
+          />
+          <small *ngIf="errors['phoneNumber']">{{ errors['phoneNumber'] }}</small>
+        </div>
+        <div class="form-group">
+          <label for="city">Grad:</label>
+          <select id="city" name="cityId" [(ngModel)]="updateUser.cityId" required>
+            <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+          </select>
+          <small *ngIf="!cities || cities.length === 0">No cities available.</small>
+        </div>
+        <div class="form-group" [class.error]="errors['yearBorn']">
+          <label for="yearBorn">Godina rođenja:</label>
+          <input
+            type="number"
+            id="yearBorn"
+            name="yearBorn"
+            [(ngModel)]="updateUser.yearBorn"
+            (ngModelChange)="validateInput('yearBorn')"
+            required
+            min="1900"
+            max="2024"
+            (keydown)="onlyAllowNumbers($event)"
+          />
+          <small *ngIf="errors['yearBorn']">{{ errors['yearBorn'] }}</small>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="save-btn" type="button" (click)="onUpdate()"
+        >Sačuvaj</button>
+        <button class="cancel-btn" (click)="closeEditProfileModal()">Otkaži</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-container" *ngIf="isChangePasswordModalOpen">
+    <div class="modal">
+      <h2>Promijeni lozinku</h2>
+      <div class="modal-body">
+        <div class="form-group" [class.error]="passwordErrors['currentPassword']">
+          <label for="currentPassword">Trenutna lozinka:</label>
+          <input
+            type="password"
+            id="currentPassword"
+            [(ngModel)]="passwordData.currentPassword"
+            required
+          />
+          <small *ngIf="passwordErrors['currentPassword']">{{ passwordErrors['currentPassword'] }}</small>
+        </div>
+        <div class="form-group" [class.error]="passwordErrors['newPassword']">
+          <label for="newPassword">Nova lozinka:</label>
+          <input
+            type="password"
+            id="newPassword"
+            [(ngModel)]="passwordData.newPassword"
+            (ngModelChange)="validatePasswordInput('newPassword')"
+
+            required
+          />
+          <small *ngIf="passwordErrors['newPassword']">{{ passwordErrors['newPassword'] }}</small>
+        </div>
+        <div class="form-group" [class.error]="passwordErrors['confirmNewPassword']">
+          <label for="confirmNewPassword">Potvrda nove lozinke:</label>
+          <input
+            type="password"
+            id="confirmNewPassword"
+            [(ngModel)]="passwordData.confirmNewPassword"
+            (ngModelChange)="validatePasswordInput('newPassword')"
+
+            required
+          />
+          <small *ngIf="passwordErrors['confirmNewPassword']">{{ passwordErrors['confirmNewPassword'] }}</small>
+        </div>
+        <small *ngIf="passwordErrors['general']" class="error">{{ passwordErrors['general'] }}</small>
+      </div>
+      <div class="modal-actions">
+        <button class="save-btn" (click)="onChangePassword()">Sačuvaj</button>
+        <button class="cancel-btn" (click)="closeChangePasswordModal()">Otkaži</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="image-modal" *ngIf="isImageModalOpen">
+    <div class="modal-content">
+      <img
+        [src]="user?.imageUrl"
+        alt="Profilna slika"
+        class="modal-image"
+        [style.transform]="'scale(' + zoomLevel + ')'"
+      />
+      <div class="zoom-controls">
+        <button (click)="zoomIn()">+</button>
+        <button (click)="zoomOut()">-</button>
+        <button (click)="resetZoom()">Resetuj</button>
+      </div>
+      <button class="close-btn" (click)="closeImageModal()">
+        ✖ </button>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <p>Učitavanje korisničkih podataka...</p>
+  </ng-template>
+
+  <div class="profile-navigation">
+    <button
+      class="nav-btn"
+      [class.active]="activeTab === 'posts'"
+      (click)="switchTab('posts')"
+    >
+      Moje objave
+    </button>
+    <button
+      class="nav-btn"
+      [class.active]="activeTab === 'favorites'"
+      (click)="switchTab('favorites')"
+    >
+      Favoriti
+    </button>
+    <button
+      class="nav-btn"
+      [class.active]="activeTab === 'requests'"
+      (click)="switchTab('requests')"
+    >
+      Zahtjevi za udomljavanje
+    </button>
+  </div>
+
+  <div class="profile-content">
+     <!-- Prikaz komponente za "Moje objave" -->
+  <div *ngIf="activeTab === 'posts'" class="tab-content">
+    <div class="posts">
+      <app-adoption-post></app-adoption-post> <!-- Premješteno ovdje -->
+    </div>
+  </div>
+    <div *ngIf="activeTab === 'favorites'" class="tab-content">
+      <div class="favorites">
+        <app-favorites></app-favorites>
+      </div>
+    </div>
+    <div *ngIf="activeTab === 'requests'" class="tab-content">
+
+      <div class="body">
+        <div *ngIf="requests.length === 0" class="no-requests">
+          Nemate zahtjeva za udomljavanje!
+        </div>
+        <div *ngIf="requests.length >0"  class="table-container" >
+          <table>
+            <thead>
+            <tr>
+              <th>Ime životinje</th>
+              <th>Vrsta životinje</th>
+              <th>Datum</th>
+              <th>Pogledaj zahtjev</th>
+              <th>Prihvati</th>
+              <th>Odbij</th>
+            </tr>
+            </thead>
+            <tbody #tableBody>
+
+            <tr *ngFor="let request of requests">
+              <td>{{ request?.animalName }}</td>
+              <td>{{ request?.animalType }}</td>
+              <td>{{ request?.date | date:'dd/MM/yyyy' }}</td>
+
+              <td>
+                <button class="action-btn view-btn" (click)="viewRequest(request.id)">Pogledaj</button>
+              </td>
+              <td>
+              <button
+                class="action-btn accept-btn"
+                (click)="acceptRequest(request.id)"
+                [disabled]="request.isAccepted"
+              >
+                <span class="icon">✔</span>
+                <span>Prihvati</span>
+              </button>
+              </td>
+              <td>
+                <button
+                  class="action-btn reject-btn"
+                  (click)="rejectRequest(request.id)"
+                  [disabled]="request.isAccepted"
+                >
+                  <span class="icon">✖</span>
+                  <span>Odbij</span>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

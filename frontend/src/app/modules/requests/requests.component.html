@@ -1,0 +1,88 @@
+<header>
+  <div class="top-bar">
+    <div class="logo">
+      <img src="assets/logo1.png" height="60" width="80" alt="Logo">
+    </div>
+
+    <nav class="nav-links">
+      <a routerLink="">Početna</a>
+      <span class="divider">|</span>
+      <a routerLink="/questions">Pitanja</a>
+      <span class="divider">|</span>
+      <a routerLink="/aboutUs">O nama</a>
+      <span class="divider">|</span>
+      <a routerLink="/requests">Zahtjevi</a>
+      <span class="divider">|</span>
+      <a routerLink="/donations">Donacije</a>
+    </nav>
+
+    <div class="user-menu" >
+      <img
+        src="{{ user?.imageUrl }}"
+        alt="User Avatar"
+        class="user-avatar"
+        tabindex="0"
+      />
+      <div class="dropdown-menu" *ngIf="isUser==true">
+        <a routerLink="/users/me">Profil</a>
+        <a routerLink="/logout">Odjavi se</a>
+      </div>
+      <div class="dropdown-menu" *ngIf="isShelter==true">
+        <a routerLink="/shelter/profile">Profil</a>
+        <a routerLink="/logout">Odjavi se</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="body">
+<div *ngIf="requests.length === 0" class="no-requests">
+  Nemate zahtjeva za udomljavanje!
+</div>
+<div *ngIf="requests.length >0"  class="table-container" >
+  <table>
+    <thead>
+    <tr>
+      <th>Ime životinje</th>
+      <th>Vrsta životinje</th>
+      <th>Datum</th>
+      <th>Pogledaj zahtjev</th>
+      <th>Prihvati</th>
+      <th>Odbij</th>
+    </tr>
+    </thead>
+    <tbody #tableBody>
+
+    <tr *ngFor="let request of requests">
+      <td>{{ request?.animalName }}</td>
+      <td>{{ request?.animalType }}</td>
+      <td>{{ request?.date | date:'dd/MM/yyyy' }}</td>
+
+      <td>
+        <button class="action-btn view-btn" (click)="viewRequest(request.id)">Pogledaj</button>
+      </td>
+      <td>
+        <button
+          class="action-btn accept-btn"
+          (click)="acceptRequest(request.id)"
+          [disabled]="request.isAccepted"
+        >
+          <span class="icon">✔</span>
+          <span>Prihvati</span>
+        </button>
+      </td>
+      <td>
+        <button
+          class="action-btn reject-btn"
+          (click)="rejectRequest(request.id)"
+          [disabled]="request.isAccepted"
+        >
+          <span class="icon">✖</span>
+          <span>Odbij</span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</div>

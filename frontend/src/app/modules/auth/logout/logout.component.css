@@ -1,0 +1,78 @@
+/* Logout Container Styling */
+.logout-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.logout-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px);
+  z-index: 1;
+}
+
+.logout-card {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  width: 300px;
+  animation: fade-in 0.6s ease-in-out;
+  z-index: 2;
+}
+
+.logout-card h2 {
+  font-size: 1.8rem;
+  color: #333333;
+  margin-bottom: 15px;
+}
+
+.logout-card p {
+  font-size: 1rem;
+  color: #555555;
+  margin-bottom: 20px;
+}
+
+/* Centered Spinner Styling */
+.spinner {
+  margin: 20px auto; /* Center the spinner within the card */
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+/* Spinner Animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fade-In Animation */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

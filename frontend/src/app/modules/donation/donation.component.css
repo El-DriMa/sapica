@@ -1,0 +1,873 @@
+body {
+  height: 100%;
+}
+
+.profile {
+  font-family: Arial, sans-serif;
+  background-size: cover;
+  width: 100%;
+  height: 50em;
+  backdrop-filter: blur(5px);
+}
+
+.profile::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px);
+  z-index: -1;
+}
+
+.top-bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background: #8b4513;
+}
+
+.logo {
+  position: absolute;
+  left: 20px;
+}
+
+.nav-links {
+  display: flex;
+  line-height: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  padding: 22px;
+}
+
+.nav-links a:hover {
+  color: rgb(77, 38, 0);
+}
+
+.header-content {
+  text-align: center;
+  padding: 0 20px;
+}
+
+.header-content h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.header-content p {
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  float: left;
+  text-align: center;
+}
+
+.divider {
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.logout-button {
+  position: absolute;
+  right: 20px;
+  background-color: #8b4513;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: red;
+}
+
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-image img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid #f5a623;
+  object-fit: cover;
+}
+
+.profile-details {
+  margin-left: 20px;
+  flex: 1;
+}
+
+.profile-details h1 {
+  font-size: 28px;
+  margin: 0 0 10px;
+  color: #222;
+}
+
+.profile-details p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.username {
+  color: #777;
+  font-style: italic;
+}
+
+.email,
+.phone,
+.city,
+.year-born,
+.post-count {
+  font-weight: bold;
+}
+
+.profile-content {
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.profile-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.posts {
+  font-size: 16px;
+  color: #555;
+  height: 100%;
+}
+
+.profile-navigation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.nav-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  background: #f5f5f5;
+  color: #555;
+  cursor: pointer;
+  margin: 0 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-btn.active {
+  background: #f5a623;
+  color: #fff;
+}
+
+.nav-btn:hover {
+  background: #f5a623;
+  color: #fff;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.user-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border 0.3s ease;
+}
+
+.user-avatar:hover {
+  border: 2px solid #f7a94f;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 10;
+  width: 120px;
+  text-align: center;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f7a94f;
+  color: #fff;
+}
+
+.user-menu:focus-within .dropdown-menu,
+.user-menu:hover .dropdown-menu {
+  display: block;
+}
+
+.clickable-profile-image {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  border-radius: 50%;
+}
+
+.clickable-profile-image:hover {
+  transform: scale(1.1);
+}
+
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.modal-content {
+  position: relative;
+}
+
+.modal-image {
+  max-width: 90%;
+  max-height: 90%;
+  border: 2px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease-in-out;
+}
+
+.image-modal:hover .modal-image {
+  cursor: zoom-in;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: red;
+}
+
+.zoom-controls {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 1001;
+}
+
+.zoom-controls button {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.close-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header .profile-details {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+.profile-header .action-buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.profile-header .action-buttons button {
+  background-color: #e49320;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.profile-header .action-buttons button:hover {
+  background-color: #774a2c;
+}
+
+.profile-header .action-buttons button:focus {
+  outline: none;
+  box-shadow: 0 0 3px 2px rgb(119, 87, 58);
+}
+
+
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+input,
+select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.error input,
+.error select {
+  border: 2px solid red;
+}
+
+.error small {
+  color: red;
+  font-size: 12px;
+}
+
+small {
+  color: red;
+}
+
+.lblDoniraj {
+  margin: auto;
+  text-align: center;
+  color: white;
+  font-size: 4rem; /* Podesi veličinu prema potrebi */
+  font-weight: bold;
+  font-family: Calibri, serif;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Tamna sjena za bolji kontrast */
+  padding-top: 5em; /* Ako treba dodatno odmaknuti od vrha */
+}
+
+ containerOut {
+   font-family: Arial, sans-serif;
+   background-color: #fbe6c2;
+   text-align: center;
+   position: relative;
+ }
+.container {
+  max-width: 1000px;
+  margin: auto;
+  margin-top:50px;
+  position: relative;
+}
+h2 {
+  color: #8a5a44;
+  font-size: 30px;
+}
+.donation-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 15px;
+}
+.donation-box {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: 30%;
+  min-width: 220px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+.donation-amounts {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+.amount-btn {
+  background: #5a2e1f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 20px;
+  margin: 20px;
+}
+#custom-amount {
+  margin-top: 10px;
+}
+input[type="number"] {
+  padding: 8px;
+  width: 120px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.donate-btn {
+  display: block;
+  margin: 20px auto;
+  background: #3c7c42;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 20px;
+  font-family: cursive;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.containerOut {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:300px;
+  background-color: antiquewhite;
+
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom:50px;
+}
+
+.chooseShelter {
+  width: 200px;
+}
+
+
+.donate-btn:hover {
+  transform: scale(1.1); /* Povećanje dugmeta */
+  background-color: #2fae5c; /* Promjena boje pozadine */
+  color: #fff; /* Promjena boje teksta */
+  transition: transform 0.2s ease, background-color 0.3s ease; /* Glatka tranzicija */}
+
+.donate-btn:active {
+  transform: scale(1.05); /* Malo manje povećanje na klik */
+  background-color: #2fae5c; /* Tamnija boja na klik */
+}
+
+.donate-btn:disabled {
+  background-color: #ccc; /* siva boja za onemogućeno dugme */
+  color: #666; /* tamno siva boja teksta */
+  cursor: not-allowed; /* indikator da je dugme neklikabilno */
+}
+
+.amount-btn:hover {
+  transform: scale(1.1); /* Povećanje dugmeta */
+  background-color: #8a5a44; /* Promjena boje pozadine */
+  color: #fff; /* Promjena boje teksta */
+  transition: transform 0.2s ease, background-color 0.3s ease; /* Glatka tranzicija */
+}
+
+.amount-btn:active {
+  transform: scale(1.05); /* Malo manje povećanje na klik */
+  background-color: #5a2e1f; /* Tamnija boja na klik */
+}
+
+.card-payment {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.stripe-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.stripe-donate-btn {
+  margin-top: 10px;
+  background-color: #28a745;
+  color: white;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.card-payment {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1100;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.close-btn {
+  background: #ccc;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  align-self: flex-end;
+  border-radius: 5px;
+}
+
+.close-btn:hover {
+  background: #aaa;
+}
+
+/* Stil za modal */
+.modal {
+  display: block; /* Pokaži modal kada je aktivan */
+  position: fixed; /* Pozicionira modal fiksno u odnosu na ekran */
+  top: 50%; /* Poravnaj vertikalno na sredinu */
+  left: 50%; /* Poravnaj horizontalno na sredinu */
+  transform: translate(-50%, -50%); /* Precizno centriraj modal */
+  background-color: white; /* Pozadina modala */
+  padding: 20px;
+  border-radius: 10px; /* Zaobljeni ivici */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Blaga senka oko modala */
+  z-index: 1001; /* Osiguraj da je modal ispred drugih elemenata */
+  width: 80%; /* Možeš prilagoditi širinu po potrebi */
+  max-width: 500px; /* Maksimalna širina modala */
+}
+
+/* Zamućenje i tamnjenje pozadine osim modala */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Tamni sloj iza modala */
+  backdrop-filter: blur(5px); /* Zamućenje pozadine */
+  z-index: 1000; /* Pozadina ispod modala */
+}
+
+/* Ispod modala, možeš dodati malo prostora za dugmiće */
+.modal-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.modal h3 {
+  margin-bottom: 20px;
+}
+
+/* Stil za modal */
+.modal {
+  display: block; /* Pokaži modal kada je aktivan */
+  position: fixed; /* Pozicionira modal fiksno u odnosu na ekran */
+  top: 50%; /* Poravnaj vertikalno na sredinu */
+  left: 50%; /* Poravnaj horizontalno na sredinu */
+  transform: translate(-50%, -50%); /* Precizno centriraj modal */
+  background-color: white; /* Pozadina modala */
+  padding: 20px;
+  border-radius: 10px; /* Zaobljeni ivici */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Blaga senka oko modala */
+  z-index: 1001; /* Osiguraj da je modal ispred drugih elemenata */
+  width: 80%; /* Možeš prilagoditi širinu po potrebi */
+  max-width: 500px; /* Maksimalna širina modala */
+}
+
+
+/* Ispod modala, možeš dodati malo prostora za dugmiće */
+.modal-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.modal h3 {
+  margin-bottom: 20px;
+}
+
+/* Glavni kontejner za formu donacije */
+.donation-form {
+  display: flex;
+  flex-direction: column; /* Postavljanje elemenata jedan ispod drugog */
+  gap: 20px; /* Razmak između elemenata */
+  max-width: 400px; /* Maksimalna širina forme */
+  margin: 0 auto; /* Centriranje forme */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9; /* Svetla pozadina */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Senka oko forme */
+}
+
+/* Stilizacija za inpute, selektore i cardElement */
+.donation-form input,
+.donation-form select,
+.donation-form button,
+#cardElementContainer {
+  width: 100%; /* Podesi širinu na 100% roditeljskog elementa */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Stilizacija za cardElement (Stripe Card) */
+#cardElementContainer {
+  margin-top: 20px; /* Razmak od prethodnih elemenata */
+  border: 1px solid #ddd; /* Okvir oko kartičnog elementa */
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.modal {
+  display: none;
+  /* Ovdje možete postaviti osnovne stilove za modal */
+}
+
+.modal-open {
+  display: block;
+  /* Stilovi za prikazivanje modala */
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+  border-radius: 10px; /* Za zaobljene ivice */
+  overflow: hidden;
+}
+
+.modal-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal-content {
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background-color: #f1f1f1; /* Dodajte efekat na hover */
+  border-radius: 50%;
+}
+
+.stripe-donate-btn {
+  background-color: #3c7c42;
+}
+
+.stripe-donate-btn:hover {
+  background-color: #2fae5c;
+}
+
+#card-element {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+/* Overlay pokriva ceo ekran */
+.modal-overlay {
+  position: fixed; /* Pokriva sve, nevezano za bilo koji div */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 999; /* Mora biti ispod modala */
+}
+
+/* Modal centriran u ekranu */
+.modal {
+  position: fixed; /* Ne zavisi ni od jednog diva */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in-out forwards;
+  z-index: 1000; /* Iznad overlay-a */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: red;
+}
+
+.disabled-content {
+  pointer-events: none;
+  filter: blur(5px);
+}
+
+.profile {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-in-visible {
+  opacity: 1;
+}

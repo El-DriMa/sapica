@@ -1,0 +1,123 @@
+<div class="userlist">
+  <h2 class="title">SVI KORISNICI</h2>
+  <button class="add-user-btn" routerLink="/users/add">Dodaj novog korisnika</button>
+
+  <div class="filter-controls">
+    <div class="filter-item">
+      <label class="filter-label" for="firstName">Ime</label>
+      <input
+        type="text"
+        id="firstName"
+        placeholder="Ime"
+        [(ngModel)]="filters.firstName"
+        (input)="onFilterChange()"
+      />
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label" for="lastName">Prezime</label>
+      <input
+        type="text"
+        id="lastName"
+        placeholder="Prezime"
+        [(ngModel)]="filters.lastName"
+        (input)="onFilterChange()"
+      />
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label" for="minYearBorn">Min. god. rođenja</label>
+      <input
+        type="number"
+        id="minYearBorn"
+        placeholder="1930"
+        [(ngModel)]="filters.minYearBorn"
+        (change)="loadAllUsers()"
+        [min]="1930"
+        [max]="2010"
+        [class.invalid]="isMinYearInvalid()"
+        (keydown)="onlyAllowNumbers($event)"
+      />
+      <small *ngIf="isMinYearInvalid()" class="error">Godina mora biti između 1930. i 2010.</small>
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label" for="maxYearBorn">Max. god. rođenja</label>
+      <input
+        type="number"
+        id="maxYearBorn"
+        placeholder="2010"
+        [(ngModel)]="filters.maxYearBorn"
+        (change)="loadAllUsers()"
+        [min]="1930"
+        [max]="2010"
+        [class.invalid]="isMaxYearInvalid()"
+        (keydown)="onlyAllowNumbers($event)"
+      />
+      <small *ngIf="isMaxYearInvalid()" class="error">Godina mora biti između 1930. i 2010.</small>
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label">Grad</label>
+      <select [(ngModel)]="filters.cityId" (change)="loadAllUsers()">
+        <option value="" selected>Svi gradovi</option>
+        <option *ngFor="let city of cities" [value]="city.id">
+          {{ city.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label">Broj objava</label>
+      <select [(ngModel)]="filters.sortOrder" (change)="loadAllUsers()">
+        <option value="Descending" selected="">Opadajući</option>
+        <option value="Ascending">Rastući</option>
+      </select>
+    </div>
+  </div>
+
+  <table class="user-table">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Ime</th>
+      <th>Prezime</th>
+      <th>God. rođenja</th>
+      <th>Korisničko ime</th>
+      <th>Email</th>
+      <th>Slika</th>
+      <th>Br. telefona</th>
+      <th>Grad</th>
+      <th>Broj objava</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.yearBorn }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>
+        <img [src]="user.imageUrl" alt="Nema slike" class="user-image" *ngIf="user.imageUrl" />
+      </td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>{{ user.city.name }}</td>
+      <td id="postCount">{{ user.postCount }}</td>
+      <td>
+        <button class="action-btn delete" (click)="onDeleteUser(user.id)">Obriši</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination-controls">
+    <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination-btn">Prethodna</button>
+    <span class="pagination-info">Stranica {{ currentPage }} od {{ Math.ceil(totalUsers / pageSize) === 0 ?
+      1 : Math.ceil(totalUsers / pageSize) }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage * pageSize >= totalUsers" class="pagination-btn">Sljedeća</button>
+  </div>
+</div>

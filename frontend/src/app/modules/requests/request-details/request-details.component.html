@@ -1,0 +1,81 @@
+<div class="body">
+  <div class="adoptionRequest-container">
+    <h2><b>Zahtjev za udomljavanje</b></h2>
+    <button class="closee-btn" (click)="goBack()">X</button>
+
+    <div class="form-grid">
+
+      <div class="form-fields">
+        <div class="form-group">
+          <label id="firstName">Ime:</label>
+          <p>{{ adoptionRequest.firstName }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="lastName">Prezime:</label>
+          <p>{{ adoptionRequest.lastName }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="age">Godine:</label>
+          <p>{{ adoptionRequest.age }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="email">Email:</label>
+          <p>{{ adoptionRequest.email }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="phoneNumber">Broj telefona:</label>
+          <p>{{ adoptionRequest.phoneNumber }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="reason">Razlog za udomljavanje:</label>
+          <p class="reason-text">{{ adoptionRequest.reason }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="livingSpace">Mjesto življenja:</label>
+          <p>{{ adoptionRequest.livingSpace }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="backyard">Dvorište:</label>
+          <p>{{ adoptionRequest.backyard }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="familyMembers">Broj ukućana:</label>
+          <p>{{ adoptionRequest.familyMembers }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="anyKids">Da li imate djecu:</label>
+          <p>{{ adoptionRequest.anyKids }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="anyAnimalsBefore">Da li ste prije imali kućnog ljubimca:</label>
+          <p>{{ adoptionRequest.anyAnimalsBefore }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="timeCommitment">Koliko sati dnevno možete posvetiti brizi o ljubimcu:</label>
+          <p>{{ adoptionRequest.timeCommitment }}</p>
+        </div>
+
+        <div class="form-group">
+          <label id="preferredCharacteristic">Preferirane osobine ljubimca:</label>
+          <p class="reason-text">{{ adoptionRequest.preferredCharacteristic }}</p>
+        </div>
+
+        <div class="action-buttons">
+          <button class="accept-btn" (click)="acceptAdoptionRequest()">Prihvati</button>
+          <button class="reject-btn" (click)="rejectAdoptionRequest()">Odbij</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

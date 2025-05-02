@@ -1,0 +1,123 @@
+
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Bahnschrift;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.register:before{
+  content: "";
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 1000px;
+  width: 90%;
+  font-family: Bahnschrift;
+  opacity: 0;
+  transform: translateX(-100vw);
+  animation: flyIn 1.5s ease-out forwards;
+
+}
+.image-section:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+.form-section:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+.image-section {
+  flex: 1;
+  background-color: #f5d2ac;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.image-section img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+
+.form-section {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #a85f32;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #5b3829;
+}
+@keyframes flyIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+

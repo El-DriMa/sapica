@@ -1,0 +1,306 @@
+
+.body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.body:before{
+  content: "";
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/pozadina3.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: blur(8px);
+  z-index: -1;
+}
+.sizeOfPicture{
+  font-family: Bahnschrift;
+  font-size: 16px;
+
+}
+.shelter-container {
+  max-width: 600px;
+  width: 90%;
+  background-color: #fffaf3;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+}
+
+h2 {
+  color: #5e4631;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 35px;
+}
+
+.form-group {
+  text-align: left;
+}
+
+label {
+  font-weight: bold;
+  color: #5e4631;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #d4c3a3;
+  border-radius: 4px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #a37c5b;
+}
+
+button.btn-submit {
+  background-color: #a37c5b;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+btn-submit:hover {
+  background-color: #8b6745;
+}
+
+
+.btn-submit:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+h2{
+  font-family: Bahnschrift;
+  font-size: x-large;
+}
+
+.loading {
+  margin-top: 15px;
+  color: #5e4631;
+  font-style: italic;
+}
+input,
+select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+
+input:focus,
+select:focus {
+  border-color: saddlebrown;   /*#007bff;*/
+  box-shadow: 0 0 5px  rgba(88,57,39,0.5);/*rgba(0, 123, 255, 0.5);*/
+  outline: none;
+}
+
+.error input,
+.error select {
+  border: 2px solid red;
+}
+
+.error small {
+  color: red;
+  font-size: 12px;
+}
+
+
+input.ng-valid.ng-dirty,
+select.ng-valid.ng-dirty {
+  border: 2px solid green;
+}
+
+.drag-drop-container {
+  width: 100%;
+  max-width: 400px;
+  height: 250px;
+  border: 2px dashed #a0522d;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  background-color: #fef5e7;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.drag-drop-container:hover,
+.drag-drop-container.drag-over {
+  border-color: saddlebrown;
+  background-color: rgba(251, 192, 147,0.5);
+}
+
+.placeholder {
+  text-align: center;
+  color: #8b4513;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+
+.preview img {
+  max-width: 100%;
+  max-height: 180px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.buttonRemove {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.remove-btn {
+  padding: 10px 15px;
+  font-size: 14px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.btn-choose{
+  background-color: #8b6745;
+  font-family: Bahnschrift;
+  color: white;
+  border: saddlebrown solid 1px;
+  padding: 10px 20px;
+}
+
+.remove-btn:hover {
+  background-color: #e64a19;
+}
+/* Overlay za pozadinu popup-a */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup sadržaj */
+.popup-content {
+  background: #fffaf0; /* svjetlo smeđa boja */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: slideIn 0.5s ease-out;
+  max-width: 400px;
+  width: 90%;
+}
+
+/* Naslov i poruka */
+.popup-content h3 {
+  margin: 0 0 10px;
+  color: #4caf50; /* zelena boja za uspjeh */
+}
+
+.popup-content p {
+  color: #333;
+  margin-bottom: 20px;
+  font-family: Bahnschrift;
+}
+
+/* Dugme za zatvaranje */
+.close-btn {
+  background-color: #ff6f61; /* boja za zatvaranje */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background-color: #e64a19;
+}
+
+.password-strength {
+  width: 100%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  margin-top: 5px;
+  overflow: hidden;
+
+}
+.strength{
+  color: saddlebrown;
+  font-family: Bahnschrift;
+}
+.strength-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 5px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Animacija popup-a */
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .shelter-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .btn-submit {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

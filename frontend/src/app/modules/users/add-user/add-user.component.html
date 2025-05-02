@@ -1,0 +1,151 @@
+<div class="user-page" [style.backgroundImage]="'url(' + backgroundUrl + ')'">
+<div class="user-container">
+  <h2>Registracija</h2>
+  <form (ngSubmit)="onAddUser()" #userForm="ngForm">
+    <div class="form-group" [class.error]="errors['firstName']">
+      <label for="firstName">Ime:</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        [(ngModel)]="newUser.firstName"
+        (ngModelChange)="validateInput('firstName')"
+        required
+      />
+      <small *ngIf="errors['firstName']">{{ errors['firstName'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['lastName']">
+      <label for="lastName">Prezime:</label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        [(ngModel)]="newUser.lastName"
+        (ngModelChange)="validateInput('lastName')"
+        required
+      />
+      <small *ngIf="errors['lastName']">{{ errors['lastName'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['yearBorn']">
+      <label for="yearBorn">Godina rođenja:</label>
+      <input
+        type="number"
+        id="yearBorn"
+        name="yearBorn"
+        [(ngModel)]="newUser.yearBorn"
+        (ngModelChange)="validateInput('yearBorn')"
+        required
+        min="1930"
+        max="2010"
+        (keydown)="onlyAllowNumbers($event)"
+      />
+      <small *ngIf="errors['yearBorn']">{{ errors['yearBorn'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="usernameControl?.errors?.['usernameTaken'] || errors['username']">
+      <label for="username">Korisničko ime:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        [(ngModel)]="newUser.username"
+        (ngModelChange)="validateInput('username')"
+        #usernameControl="ngModel"
+        required
+        autocomplete="new-password"
+        appUniqueUsernameValidator
+      />
+      <small *ngIf="usernameControl?.errors?.['usernameTaken']">Korisničko ime je već u upotrebi!</small>
+      <small *ngIf="errors['username']">{{ errors['username'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['password']">
+      <label for="password">Lozinka:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="newUser.password"
+        (ngModelChange)="validateInput('password'); calculatePasswordStrength($event)"
+        required
+      />
+      <small *ngIf="errors['password']">{{ errors['password'] }}</small>
+
+      <div class="password-strength-meter">
+        <div class="strength-bar" [style.width.%]="passwordStrength.score * 25" [style.backgroundColor]="passwordStrength.color"></div>
+      </div>
+      <small class="strength-text">{{ passwordStrength.label }}</small>
+    </div>
+    <div class="form-group" [class.error]="emailControl?.errors?.['emailTaken'] || errors['email']">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="newUser.email"
+        (ngModelChange)="validateInput('email')"
+        #emailControl="ngModel"
+        required
+        appUniqueEmailValidator
+      />
+      <small *ngIf="emailControl?.errors?.['emailTaken']">Email je već u upotrebi!</small>
+      <small *ngIf="errors['email']">{{ errors['email'] }}</small>
+    </div>
+    <div class="form-group" [class.error]="errors['phoneNumber']">
+      <label for="phoneNumber">Broj telefona:</label>
+      <input
+        type="text"
+        id="phoneNumber"
+        name="phoneNumber"
+        [(ngModel)]="newUser.phoneNumber"
+        (ngModelChange)="validateInput('phoneNumber')"
+        required
+      />
+      <small *ngIf="errors['phoneNumber']">{{ errors['phoneNumber'] }}</small>
+    </div>
+    <div class="form-group">
+      <label for="city">Grad:</label>
+      <select id="city" name="cityId" [(ngModel)]="newUser.cityId" required>
+        <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+      </select>
+      <small *ngIf="!cities || cities.length === 0">Nema dostupnih gradova.</small>
+    </div>
+
+    <div class="upload-section">
+      <label for="fileInput">Slika:</label>
+      <div class="drag-and-drop" appDnd (fileDropped)="onFileDropped($event)">
+        <div class="upload-container" [class.hidden]="file">
+          <p>Prevuci sliku ovdje</p>
+          <p>ili</p>
+          <button type="button" class="btn-choose" (click)="triggerFileInput()"><b>Odaberi datoteku</b></button>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            #fileInput
+            hidden
+          />
+        </div>
+        <img *ngIf="file" [src]="previewUrl" alt="Image preview" class="image-preview" />
+      </div>
+    </div>
+
+    <div class="preview-container" *ngIf="file">
+      <div class="file-info">
+        <p><strong>Naziv:</strong> {{ file.name }}</p>
+        <p><strong>Veličina:</strong> {{ formatBytes(file.size) }}</p>
+      </div>
+      <button (click)="removeFile()">Ukloni</button>
+    </div>
+
+    <button
+      type="submit"
+      class="btn-submit"
+      [disabled]="!isValidForm() || isSubmitting ||
+       usernameControl?.errors?.['usernameTaken'] || emailControl?.errors?.['emailTaken']"
+    >
+      Registruj se
+    </button>
+  </form>
+  <div *ngIf="isSubmitting" class="loading">Kreiranje profila...</div>
+</div>
+</div>

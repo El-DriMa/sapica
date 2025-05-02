@@ -1,0 +1,24 @@
+.error-container {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.error-container h1 {
+  font-size: 5rem;
+  color: #ff4d4d;
+}
+
+.error-container p {
+  font-size: 1.5rem;
+  margin: 20px 0;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

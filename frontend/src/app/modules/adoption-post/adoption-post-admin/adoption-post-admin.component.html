@@ -1,0 +1,88 @@
+<div class="userlist">
+<div class="top-bar">
+    <h2  class="title">Sve objave</h2>
+  </div>
+  <div class="search-bar">
+    <div class="filter-group">
+      <!-- Checkbox za hitno udomljavanje -->
+      <label class="checkbox-container">
+        <input type="checkbox" id="urgent" [(ngModel)]="filters.urgent" (ngModelChange)="searchAdoptionPosts()"/>
+        Hitno udomljavanje
+      </label>
+
+      <!-- Combo box za vrstu životinje -->
+      <select class="dropdown-btn" id="animalType" [(ngModel)]="filters.animalType" (ngModelChange)="searchAdoptionPosts()">
+        <option value="" selected>Vrsta životinje</option>
+        <option value="Pas">Pas</option>
+        <option value="Mačka">Mačka</option>
+        <option value="Zec">Zec</option>
+        <option value="Ostalo">Ostalo</option>
+      </select>
+
+      <!-- Combo box za spol -->
+      <select class="dropdown-btn" id="gender" [(ngModel)]="filters.gender" (ngModelChange)="searchAdoptionPosts()">
+        <option value="" selected>Spol</option>
+        <option value="Mužjak">Mužjak</option>
+        <option value="Ženka">Ženka</option>
+      </select>
+
+      <!-- Combo box za veličinu -->
+      <select class="dropdown-btn" id="size" [(ngModel)]="filters.size" (ngModelChange)="searchAdoptionPosts()">
+        <option value="" selected>Veličina</option>
+        <option value="Malo">Malo</option>
+        <option value="Srednje">Srednje</option>
+        <option value="Veliko">Veliko</option>
+      </select>
+
+      <!-- Combo box za grad -->
+      <select class="dropdown-btn" id="" [(ngModel)]="filters.cityId" (ngModelChange)="searchAdoptionPosts()">
+      <option value="0" selected>Grad</option>
+        <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+      </select>
+
+
+      <!-- Dugme za pretragu -->
+      <button class="dropdown-btn search-btn" (click)="searchAdoptionPosts()">Pretraži</button>
+    </div>
+  </div>
+  <br><br>
+
+<table class="user-table">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Vlasnik</th>
+      <th>Ime životinje</th>
+      <th>Starost</th>
+      <th>Grad</th>
+      <th>Datum objave</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let post of adoptionPosts">
+      <td>{{ post.id }}</td>
+      <td>{{ post.username }}</td>
+      <td>{{ post.animal.name }}</td>
+      <td>{{ post.animal.age }}</td>
+      <td>{{ post.city?.name }}</td>
+      <td>{{ post.dateOfCreation }}</td>
+      <td>
+        <button class="action-btn delete" (click)="deleteAdoptionPost(post.id)">Obriši</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-btn">
+      <img class="paw-icon1" src="../../../assets/dog-paw-svgrepo-com.svg" alt="Previous page">
+    </button>
+    <span class="current-page">{{ currentPage }} / {{totalPages}} </span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">
+      <img class="paw-icon2" src="../../../assets/dog-paw-svgrepo-com.svg" alt="Next page">
+    </button>
+  </div>
+</div>
