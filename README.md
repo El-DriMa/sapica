@@ -1,20 +1,24 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Šapica 🐾
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Šapica is a web application developed to support and improve the pet adoption process.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Description
+Šapica is a full-stack application built using Angular, .NET Core, and MS SQL. It allows users to browse available animals, view shelter locations on a map, and interact with the system through secure authentication and a responsive design.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## Technologies Used
+- Angular
+- .NET Core
+- MS SQL
+- Entity Framework
+- JWT Authentication
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Features
+- 🔐 User authentication
+- 🐾 CRUD operations for animals
+- 🗺️ Interactive map with shelter locations
+- 👩‍💻 Admin panel for content management
+- 📱 Responsive and clean UI
+
+---
+
+This project was created together with my colleagues @nejlac and @aminag03 as part of a university assignment for the Software Development 1 course.
